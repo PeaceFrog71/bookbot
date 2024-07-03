@@ -5,7 +5,10 @@ def main():
     #print(file_contents)
     
     word_count = count_words(file_contents)
+    char_count = count_chars(file_contents)
     print(f"word count = {word_count}")
+    print(f"char count = {char_count}")
+    print(f"number of unique chars = {len(char_count)}")
     
 
 def get_file_text(path):
@@ -27,6 +30,17 @@ def count_words(book):
     
     words = book.split()
     return len(words)
+
+def count_chars(book):
+    char_count = {}
+    
+    book_lowercase = book.lower()
+    for token in book_lowercase:
+        if token not in char_count:
+            char_count[token] = 1
+        else:
+            char_count[token] += 1
+    return char_count
 
 if __name__ == "__main__":
     main()
