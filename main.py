@@ -1,30 +1,24 @@
+from stats import count_words, count_chars
+import sys
 
 def main():
-    temp_dict = {'p': 6121, 'r': 20818, 'o': 25225}
-    book_path = "books/frankenstien.txt"
-    file_contents = get_file_text(book_path)
+    #temp_dict = {'p': 6121, 'r': 20818, 'o': 25225}
+    #book_path = "books/frankenstein.txt"
+
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        # Exit with error code 1
+        sys.exit(1) 
+        
+    book_path = sys.argv[1]
+    file_contents = get_book_text(book_path)
     #print(file_contents)
 
     print_char_report(book_path)
-
     
-def get_file_text(path):
+def get_book_text(path):
     with open(path) as f:
         return f.read()
-
-def count_words(book):
-    return len(book.split())
-
-def count_chars(book):
-    char_count = {}
-    
-    book_lowercase = book.lower()
-    for token in book_lowercase:
-        if token not in char_count:
-            char_count[token] = 1
-        else:
-            char_count[token] += 1
-    return char_count
 
 def convert_to_list(dictionary):
     return_list =  []
@@ -36,16 +30,19 @@ def convert_to_list(dictionary):
 
 def print_char_report(book_path):
 
-    file_contents = get_file_text(book_path)
+    file_contents = get_book_text(book_path)
     word_count = count_words(file_contents)
     char_count = count_chars(file_contents)
     char_list = convert_to_list(char_count)
     
-    print(f"--- Begin report of {book_path} ---")
-    print(f"{word_count} words found in the document\n\n")
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {book_path}...")
+    print(f"----------- Word Count ----------")
+    print(f"Found {word_count} total words")
+    print(f"----------- Character Count -----")
     for char in char_list:
-        print(f"The '{char['name']}' character was found {char['value']} times")
-    print("--- End report ---")
+        print(f"{char['name']}: {char['value']}")
+    print("============= END ===============")
     
 if __name__ == "__main__":
     main()
